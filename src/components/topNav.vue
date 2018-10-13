@@ -56,7 +56,7 @@ export default {
           this.token = "";
         },
        loginMethod(){
-         this.$http.post("http://localhost:3000/login",{
+         this.$http.post("login",{
             username:this.loginForm.name,
             password:this.loginForm.password
          }).then((response)=>{

@@ -29,7 +29,7 @@ export default {
     computed:{
         imgUrl(){
             if(this.bangumi.cover!=""){
-                return "http://localhost:3000"+this.bangumi.cover.path;
+                return process.env.VUE_APP_HTTP_ROOT+this.bangumi.cover.path;
             }else{
                 return "";
             }
@@ -71,7 +71,7 @@ export default {
         }
     },
     mounted(){
-        this.$http.get("http://localhost:3000/bangumis/"+this.id).then(response=>{
+        this.$http.get("bangumis/"+this.id).then(response=>{
             this.bangumi = response.body;
         });
     }

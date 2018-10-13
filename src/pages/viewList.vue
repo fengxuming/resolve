@@ -140,7 +140,7 @@ export default {
       },
       filters:{
           imgUrlFilter(path){
-            return "http://localhost:3000"+path;
+            return process.env.VUE_APP_HTTP_ROOT+path;
           },
           titleLinkFilter(id){
               console.log(id);
@@ -148,7 +148,7 @@ export default {
           }
       },
       mounted(){
-          this.$http.get("http://localhost:3000/bangumis").then(resopnse=>{
+          this.$http.get("bangumis").then(resopnse=>{
               this.bangumiList = resopnse.body;
           });
       }

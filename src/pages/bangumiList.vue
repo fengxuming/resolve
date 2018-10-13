@@ -117,11 +117,11 @@ export default {
             }
         },
         imgUrlFilter(path){
-            return "http://localhost:3000"+path;
+            return process.env.VUE_APP_HTTP_ROOT+path;
         }
     },
     mounted(){
-        this.$http.get("http://localhost:3000/bangumis").then(response =>{
+        this.$http.get("bangumis").then(response =>{
             this.bangumiList = response.body;
         })
     }

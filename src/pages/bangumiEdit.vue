@@ -25,7 +25,7 @@
                 <el-col :span="12" >
                     <el-upload
                         class="avatar-uploader"
-                        action="http://localhost:3000/uploads"
+                        :action="uploadUrl"
                         name="file"
                         :headers="headers"
                         :on-success="handleSuccess">
@@ -202,6 +202,7 @@ export default {
             cast:"",
             staff:"",
             imgUrl:"",
+            uploadUrl:process.env.VUE_APP_HTTP_ROOT+"/uploads"
         };
     },
     computed:{
@@ -213,9 +214,9 @@ export default {
     },
     mounted(){
         if(this.id){
-            this.$http.get("http://localhost:3000/bangumis/"+this.id).then(response=>{
+            this.$http.get("bangumis/"+this.id).then(response=>{
                 this.bangumi = response.body;
-                this.imgUrl = "http://localhost:3000"+this.bangumi.cover.path;
+                this.imgUrl = process.env.VUE_APP_HTTP_ROOT+this.bangumi.cover.path;
             });
         }
         
@@ -237,7 +238,7 @@ export default {
             this.staff = "";
         },
         handleSuccess(response, file, fileList){
-            this.imgUrl = "http://localhost:3000"+response.resource.path;
+            this.imgUrl =process.env.VUE_APP_HTTP_ROOT+response.resource.path;
             this.bangumi.cover = response.resource._id;
         },
         save(){
@@ -245,11 +246,11 @@ export default {
                 if(this.bangumi.cover._id){
                     this.bangumi.cover = this.bangumi.cover._id;
                 }
-                this.$http.put("http://localhost:3000/bangumis/"+this.id,this.bangumi).then(response=>{
+                this.$http.put("bangumis/"+this.id,this.bangumi).then(response=>{
                     this.$router.push("/admin/list");
                 });
             }else{
-                this.$http.post("http://localhost:3000/bangumis",this.bangumi).then(response=>{
+                this.$http.post("bangumis/",this.bangumi).then(response=>{
                     this.$router.push("/admin/list");
                 });
             }

@@ -1,7 +1,7 @@
 <template>
     <div class="box box-widget">
         <div class="box-header with-border">
-            <div class="box-title">
+            <div class="box-title" :title="title">
                 <router-link :to="url">
                     <span>{{title}}</span>
                 </router-link>
@@ -14,7 +14,9 @@
         <!-- /.box-header -->
         <div class="box-body">
             <div class="cover" v-if="imgUrl">
-                <img :src="imgUrl"></img>
+                <router-link :to="url">
+                    <img :src="imgUrl"></img>
+                </router-link>
             </div>
             <div v-if="content">
                 <p>{{content}}</p>
@@ -93,11 +95,15 @@ export default {
     display: block;
     padding: 10px;
     position: relative;
+    height: 20px;
+    line-height: 20px;
 }
 .box-title{
     color:#333333;
     font-weight: bold;
-    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     
 }
 .box-title span{
@@ -135,8 +141,17 @@ export default {
     padding: 10px;
     background-color: #fff;
 }
+.cover{
+    width: 100%;
+    padding-top: calc(100% * 1.5);
+    position: relative;
+}
 .cover img{
     width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
 }
 .cast , .staff{
     margin-top: 10px;
