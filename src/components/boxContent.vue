@@ -37,6 +37,9 @@
                     <span>{{item}}</span>
                 </div>
             </div>
+            <slot>
+                
+            </slot>
         </div>
         <!-- /.box-body -->
         <!-- <div class="box-footer">
@@ -94,9 +97,11 @@ export default {
     color: #666666;
     display: block;
     padding: 10px;
+    
     position: relative;
     height: 20px;
     line-height: 20px;
+   
 }
 .box-title{
     color:#333333;

@@ -7,16 +7,24 @@
                     class="el-menu-vertical-demo"
                     @open="handleOpen"
                     @close="handleClose">
-                    <router-link to="/admin/list">
+                    <router-link to="/admin/bangumi/list">
                         <el-menu-item index="1">
                             <i class="el-icon-menu"></i>
                             <span slot="title">番剧</span>
                         </el-menu-item>
                     </router-link>
-                    <el-menu-item index="2">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">种子</span>
-                    </el-menu-item>
+                    <router-link to="/admin/torrent/list">
+                        <el-menu-item index="2">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">种子</span>
+                        </el-menu-item>
+                    </router-link>
+                    <router-link to="/admin/crawlerSetting/list">
+                        <el-menu-item index="3">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">爬虫配置</span>
+                        </el-menu-item>
+                    </router-link>
                     
             </el-menu>
         </el-aside>

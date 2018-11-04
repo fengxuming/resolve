@@ -20,7 +20,7 @@ Vue.use(VueLocalStorage)
 
 Vue.http.headers.common['token'] = Vue.localStorage.get("token","");
 Vue.http.options.root = process.env.VUE_APP_HTTP_ROOT;
-console.log(process.env.VUE_APP_HTTP_ROOT)
+
 
 new Vue({
   render: h => h(App),

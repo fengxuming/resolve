@@ -10,7 +10,7 @@ module.exports = {
       }
       
     },
-   
+    baseUrl:"./",
     devServer: {
       port:1024
     },
@@ -19,6 +19,12 @@ module.exports = {
         
     },
     configureWebpack: {
+      // externals:{
+      //   "vue":"Vue",
+      //   "element-ui":"ElementUI",
+       
+        
+      // },
       output: {
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].js',

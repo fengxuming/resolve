@@ -1,31 +1,111 @@
 <template>
-    <div class="week" v-bind:class="weekColor">
+    <div class="week" v-bind:class="weekDay | weekColorFilter">
         <div class="week-title">
-            <span>{{weekDay}}</span>
+            <span>{{weekDay | weekDayFilter}}</span>
         </div>
         <div class="week-content">
-            <slot></slot>
+            <el-row :gutter="20">
+                    <el-col :span="3" v-for="(item,index) in weekDayList" :key="index">
+                        <box-content :title="item.title" :imgUrl="item.cover.path | imgUrlFilter" :titleLink="item._id | titleLinkFilter"></box-content>
+                    </el-col>  
+            </el-row>
         </div>
     </div>
 </template>
 <script>
+import BoxContent from "../components/boxContent";
 export default {
+    components: {
+        BoxContent
+    },
     props:{
-        weekColor:String,
-        weekDay:String
+        weekDay:Number
     },
     data(){
         return {
-            
+            weekDayList:[]
         }
+    },
+    filters:{
+        weekDayFilter(weekDay){
+            switch(weekDay){
+                case 0:{
+                    return "日曜日"
+                }
+                case 1:{
+                    return "月曜日"
+                }
+                case 2:{
+                    return "火曜日"
+                }
+                case 3:{
+                    return "水曜日"
+                }
+                case 4:{
+                    return "木曜日"
+                }
+                case 5:{
+                    return "金曜日"
+                }
+                case 6:{
+                    return "土曜日"
+                }
+                
+            }
+        },
+        weekColorFilter(weekDay){
+             switch(weekDay){
+                case 0:{
+                    return "sunday"
+                }
+                case 1:{
+                    return "monday"
+                }
+                case 2:{
+                    return "tuesday"
+                }
+                case 3:{
+                    return "wednesday"
+                }
+                case 4:{
+                    return "thursday"
+                }
+                case 5:{
+                    return "friday"
+                }
+                case 6:{
+                    return "saturday"
+                }
+                
+            }
+        },
+        imgUrlFilter(path){
+            return process.env.VUE_APP_HTTP_ROOT+path;
+        },
+        titleLinkFilter(id){
+            
+              return "/view/detail/"+id;
+        }
+    },
+    mounted(){
+        this.$http.get("bangumis?weekday="+this.weekDay).then(resopnse=>{
+              this.weekDayList = resopnse.body;
+        });
     }
 };
 </script>
-<style scoped>
+<style>
 .week{
     overflow: hidden;
     position: relative;
     margin-top: 10px;
+}
+.week .box-header{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    padding-top:2px;
+    padding-bottom: 2px;
 }
 .week-title{
     overflow: hidden;

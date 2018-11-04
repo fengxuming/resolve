@@ -247,11 +247,11 @@ export default {
                     this.bangumi.cover = this.bangumi.cover._id;
                 }
                 this.$http.put("bangumis/"+this.id,this.bangumi).then(response=>{
-                    this.$router.push("/admin/list");
+                    this.$router.push("/admin/bangumi/list");
                 });
             }else{
                 this.$http.post("bangumis/",this.bangumi).then(response=>{
-                    this.$router.push("/admin/list");
+                    this.$router.push("/admin/bangumi/list");
                 });
             }
             

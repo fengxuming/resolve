@@ -28,7 +28,7 @@
     </header>
 </template>
 <script>
-
+const NodeRSA = require("node-rsa");
 export default {
     data(){
       return {
@@ -40,12 +40,18 @@ export default {
         },
         formLabelWidth: '120px',
         username:"",
-        token:""
+        token:"",
+        publicKey:""
       }
     },
     mounted(){
         this.username = this.$localStorage.get("username","");
         this.token = this.$localStorage.get("token","");
+        this.$http.get("getPubkey/").then((response)=>{
+          if(response.body.success){
+            this.publicKey = response.body.data.pubkey;
+          }
+        });
     },
     methods:{
         logout(){
@@ -56,9 +62,19 @@ export default {
           this.token = "";
         },
        loginMethod(){
+
+         if(this.publicKey==""||this.loginForm.password==""){
+           return;
+         }
+         
+
+         let pubKey = new NodeRSA(this.publicKey,"pkcs8-public");
+         let encrypted_password = pubKey.encrypt(this.loginForm.password, 'base64');
+         
+
          this.$http.post("login",{
             username:this.loginForm.name,
-            password:this.loginForm.password
+            password:encrypted_password
          }).then((response)=>{
             if(response.body.success){
                 this.$localStorage.set('token', response.body.access_token);
@@ -67,7 +83,7 @@ export default {
                 this.username = response.body.user.username;
                 this.token = response.body.access_token;
                 this.dialogFormVisible = false
-                this.$route.reload();
+                window.location.reload()
             }else{
               this.dialogFormVisible = false
               this.$alert('用户名或密码错误', '提示', {

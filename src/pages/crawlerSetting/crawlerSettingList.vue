@@ -1,65 +1,41 @@
 <template>
-    <div class="bangumiList" style="height:100%">
+    <div class="crawlerSettingList" style="height:100%">
         <el-row>
             <el-col :span="24">
                 <div class="option">
-                    <el-button type="success" @click="addBangumi()">添加番剧</el-button>
+                    <el-button type="success" @click="addCrawlerSetting()">添加爬虫配置</el-button>
                 </div>
             </el-col>
         </el-row>
         <el-table
-                :data="bangumiList"
+                :data="crawlerSettingList"
                 stripe
                 border
                 height="80%"
                 style="width: 100%">
                 <el-table-column
                     prop="_id"
-                    label="ID"
-                    width="120">
+                    label="ID">
                 </el-table-column>
                 <el-table-column
-                   
-                    prop="title"
-                    label="番剧名"
-                    width="150">
+                    prop="bangumiName"
+                    label="番剧关键词">
                 </el-table-column>
                 <el-table-column
-                    prop="cover.path"
-                    label="封面"
-                    width="120">
-                    <template slot-scope="scope">
-                        <img style="width:100%" :src="scope.row.cover.path | imgUrlFilter"></img>
-                    </template>
+                    prop="zimuzu"
+                    label="字幕组">
                 </el-table-column>
                 <el-table-column
-                    prop="weekDay"
-                    label="星期"
-                    width="120">
-                    <template slot-scope="scope">
-                        <span>{{scope.row.weekDay | weekDayFilter}}</span>
-                    </template>
+                    prop="intervalTime"
+                    label="抓取间隔时间">
                 </el-table-column>
                 <el-table-column
-                    prop="cast"
-                    label="声优表"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="staff"
-                    label="staff表"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="info"
-                    label="简介"
-                    width="300">
+                    prop="bangumi"
+                    label="番剧">
                 </el-table-column>
                 
                 <el-table-column
-                    
-                    label="操作"
-                    width="100">
+                    label="操作">
                     <template slot-scope="scope">
                         <el-button  type="text" size="small" @click="viewClick(scope.row)">查看</el-button>
                         <el-button type="text" size="small" @click="editClick(scope.row)">编辑</el-button>
@@ -73,20 +49,20 @@
 export default {
     data(){
         return {
-            bangumiList:[]
+            crawlerSettingList:[]
         }
     },
     methods:{
-        viewClick(bangumi) {
-            console.log(bangumi);
-            this.$router.push("/admin/bangumi/view/"+bangumi._id);
+        viewClick(crawlerSetting) {
+            
+            this.$router.push("/admin/crawlerSetting/view/"+crawlerSetting._id);
         },
-        editClick(bangumi) {
-            console.log(bangumi);
-            this.$router.push("/admin/bangumi/edit/"+bangumi._id);
+        editClick(crawlerSetting) {
+            
+            this.$router.push("/admin/crawlerSetting/edit/"+crawlerSetting._id);
         },
-        addBangumi(){
-            this.$router.push("/admin/bangumi/edit/");
+        addCrawlerSetting(){
+            this.$router.push("/admin/crawlerSetting/edit/");
         }
     },
     filters:{
@@ -121,15 +97,15 @@ export default {
         }
     },
     mounted(){
-        this.$http.get("bangumis").then(response =>{
-            this.bangumiList = response.body;
+        this.$http.get("crawlerSettings").then(response =>{
+            this.crawlerSettingList = response.body;
         })
     }
     
 }
 </script>
 <style scoped>
-    .bangumiList{
+    .crawlerSetting{
         height: 100%;
         width: 90%;
         margin-left: 5%;

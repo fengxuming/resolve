@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "element-ui": "^2.4.8",
+    "node-rsa": "^1.0.1",
     "vue": "^2.5.17",
     "vue-localstorage": "^0.6.2",
     "vue-resource": "^1.5.1",
