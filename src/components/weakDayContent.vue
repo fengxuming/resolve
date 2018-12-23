@@ -5,7 +5,7 @@
         </div>
         <div class="week-content">
             <el-row :gutter="20">
-                    <el-col :span="3" v-for="(item,index) in weekDayList" :key="index">
+                    <el-col :xs="12" :sm="8" :md="6" :lg="4" :xl="2" v-for="(item,index) in weekDayList" :key="index">
                         <box-content :title="item.title" :imgUrl="item.cover.path | imgUrlFilter" :titleLink="item._id | titleLinkFilter"></box-content>
                     </el-col>  
             </el-row>

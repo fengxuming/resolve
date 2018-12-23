@@ -1,10 +1,10 @@
 <template>
     <div class="bangumi-detail">
         <el-row :gutter="24">
-                <el-col :span="6">
+                <el-col  :xs="24"  :md="6" >
                     <box-content :title="bangumi.title"  :imgUrl="imgUrl" :cast="bangumi.cast" :staff="bangumi.staff"></box-content>
                 </el-col>
-                <el-col :span="18">
+                <el-col :xs="24"  :md="18">
                     <box-content title="播放日期" :content="bangumi.weekDay | weekDayFilter"></box-content>
                     <box-content title="简介" :content="bangumi.info"></box-content>
                     <box-content title="种子列表">
