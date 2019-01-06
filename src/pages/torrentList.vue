@@ -37,6 +37,14 @@
                     </template>
                 </el-table-column>
         </el-table>
+        <div class="page">
+            <el-pagination
+                @current-change="handleCurrentChange"
+                :page-size="20"
+                layout="prev, pager, next, jumper"
+                :total='totalRecords'>
+            </el-pagination>
+        </div>
     </div>
    
 </template>
@@ -44,10 +52,28 @@
 export default {
     data(){
         return {
+             //查询参数
+            searchParams:{
+                offset:0,
+                maxSize:20,
+            },
+            totalRecords:0,
             torrentList:[]
         }
     },
     methods:{
+        searchTorrentList(){
+            this.$http.get("torrents",{
+                params:this.searchParams
+            }).then(response =>{
+                this.torrentList = response.body.datas;
+                this.totalRecords = response.body.totalRecords;
+            })
+        },
+        handleCurrentChange(value){
+            this.searchParams.offset = (value-1)*this.searchParams.maxSize;
+            this.searchTorrentList();
+        },
         viewClick(torrent) {
             
             this.$router.push("/admin/torrent/view/"+torrent._id);
@@ -92,9 +118,7 @@ export default {
         }
     },
     mounted(){
-        this.$http.get("torrents").then(response =>{
-            this.torrentList = response.body;
-        })
+        this.searchTorrentList();
     }
     
 }
@@ -109,5 +133,8 @@ export default {
     .option{
         text-align: right;
         margin-bottom: 20px;
+    }
+     .page{
+        text-align: right;
     }
 </style>

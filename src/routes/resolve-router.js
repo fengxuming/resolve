@@ -16,6 +16,14 @@ import crawlerSettingList from "../pages/crawlerSetting/crawlerSettingList";
 import crawlerSettingEdit from "../pages/crawlerSetting/crawlerSettingEdit";
 import crawlerSettingView from "../pages/crawlerSetting/crawlerSettingView";
 
+import bvideo from "../pages/bvideo";
+import bvideoList from "../pages/bvideo/bvideoList";
+import bvideoEdit from "../pages/bvideo/bvideoEdit";
+
+
+
+
+
 
 const routes = [{
     path: '/',
@@ -111,6 +119,29 @@ const routes = [{
             component:crawlerSettingView,
             props: true
           }
+        ]
+      },{
+        path:"bvideo",
+        name:"bvideo",
+        component:bvideo,
+        children:[
+          {
+            path:"list",
+            name:"bvideoList",
+            component:bvideoList
+          },
+          {
+            path:"edit",
+            name:"bvideoEdit",
+            component:bvideoEdit
+          },
+          {
+            path:"edit/:id",
+            name:"bvideoEdit",
+            component:bvideoEdit,
+            props: true
+          }
+          
         ]
       }
       

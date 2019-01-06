@@ -9,8 +9,10 @@
     "dev": "npm run serve"
   },
   "dependencies": {
+    "echarts": "^4.2.0-rc.2",
     "element-ui": "^2.4.8",
     "node-rsa": "^1.0.1",
+    "v-charts": "^1.19.0",
     "vue": "^2.5.17",
     "vue-localstorage": "^0.6.2",
     "vue-resource": "^1.5.1",

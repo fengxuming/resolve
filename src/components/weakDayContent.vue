@@ -88,8 +88,13 @@ export default {
         }
     },
     mounted(){
-        this.$http.get("bangumis?weekday="+this.weekDay).then(resopnse=>{
-              this.weekDayList = resopnse.body;
+        this.$http.get("bangumis",{
+            params:{
+                weekday:this.weekDay,
+                startDate:"2019-1",
+            }
+        }).then(resopnse=>{
+              this.weekDayList = resopnse.body.datas;
         });
     }
 };

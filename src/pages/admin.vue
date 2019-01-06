@@ -25,6 +25,12 @@
                             <span slot="title">爬虫配置</span>
                         </el-menu-item>
                     </router-link>
+                    <router-link to="/admin/bvideo/list">
+                        <el-menu-item index="4">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">b站视频</span>
+                        </el-menu-item>
+                    </router-link>
                     
             </el-menu>
         </el-aside>

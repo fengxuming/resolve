@@ -28,13 +28,39 @@
                     </box-content>
                 </el-col>
         </el-row>
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>B站播放数据</span>
+            </div>
+           
+            <el-collapse v-model="activeNames" @change="handleChange">
+                <line-chart ref="line-chart"></line-chart>
+ 
+            </el-collapse>
+        </el-card>
+        
     </div>
 </template>
 <script>
 import BoxContent from "../components/boxContent";
+import LineChart from "../components/lineChart";
 export default {
     data(){
+        this.dataZoom =[
+            {
+                type: 'slider',
+                show: true,
+                xAxisIndex: [0],
+                start: 0,
+                end: 20 // 数值的设置参考http://echarts.baidu.com/option.html#dataZoom-slider.start
+            }
+        ];
+        
         return {
+            activeNames: ['1'],
+            activeName: '1',
+            
+            
             bangumi:{
                 title:"",
                 info:"",
@@ -55,10 +81,12 @@ export default {
                 return "";
             }
             
-        }
+        },
+        
     },
     components: {
-        BoxContent
+        BoxContent,
+        LineChart
     },
     props:{
         id:String
@@ -91,18 +119,33 @@ export default {
             }
         }
     },
+    watch: {
+      
+      activeNames(v){
+        this.$nextTick(_ => {
+          this.$refs[`line-chart`].$refs[`chart${v}`].echarts.resize()
+        })
+      }
+    },
     mounted(){
         this.$http.get("bangumis/"+this.id).then(response=>{
             this.bangumi = response.body;
         });
+
+        
 
         this.$http.get("torrents",{
             params:{
                 bangumiId:this.id
             }
         }).then((response)=>{
-            this.torrentList = response.body;
+            this.torrentList = response.body.datas;
         })
+    },
+    methods:{
+        handleChange(val) {
+            console.log(val);
+        }
     }
 }
 </script>

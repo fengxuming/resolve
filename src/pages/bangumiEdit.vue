@@ -36,7 +36,33 @@
                 </el-col>
            </el-row>
           
-
+               <el-row :gutter="20">
+               <el-col :span="6" >
+                    <div class="form-label">
+                        <span class="form-label">放送开始时间</span>
+                    </div>
+                
+                    
+                </el-col>
+  
+                <el-col :span="12" >
+                    <div style="display:flex;">
+                        <el-date-picker
+                            value-format="yyyy"
+                            v-model="startDateYear"
+                            type="year"
+                            placeholder="选择年">
+                        </el-date-picker>
+                        <el-select v-model="startDateMonth" placeholder="选择季度" style="margin-left:20px">
+                            <el-option label="冬季" value="1"></el-option>
+                            <el-option label="春季" value="4"></el-option>
+                            <el-option label="夏季" value="7"></el-option>
+                            <el-option label="秋季" value="10"></el-option>
+                        </el-select>
+                    </div>
+                    
+                </el-col>
+           </el-row>
            <el-row :gutter="20">
                <el-col :span="6" >
                     <div class="form-label">
@@ -158,6 +184,9 @@ export default {
     },
     data() {
         return {
+            startDateYear:"",//放送年
+            startDateMonth:"",//放送季度
+            value4:"",
             bangumiName: "",
             textarea: "",
             options: [
@@ -196,6 +225,7 @@ export default {
                 info:"",
                 cover:"",
                 weekDay:0,
+                startDate:"",
                 cast:[],
                 staff:[],
             },
@@ -205,23 +235,41 @@ export default {
             uploadUrl:process.env.VUE_APP_HTTP_ROOT+"/uploads"
         };
     },
+    watch:{
+        startDateYear(){
+            this.setStartDate();
+        },
+        startDateMonth(){
+            this.setStartDate();
+        },
+    },
     computed:{
         headers(){
             return {
                 token:this.$localStorage.get("token","")
             }
-        }
+        },
+        
+        
     },
     mounted(){
         if(this.id){
             this.$http.get("bangumis/"+this.id).then(response=>{
                 this.bangumi = response.body;
                 this.imgUrl = process.env.VUE_APP_HTTP_ROOT+this.bangumi.cover.path;
+                this.getStartDate(this.bangumi.startDate);
             });
         }
         
     },
     methods:{
+        getStartDate(startDate){
+            this.startDateYear = startDate.split("-")[0];
+            this.startDateMonth= startDate.split("-")[1];
+        },
+        setStartDate(){
+            this.bangumi.startDate = this.startDateYear+"-"+this.startDateMonth;
+        },
         deleteStaff(index){
             this.bangumi.staff.splice(index,1);
         },

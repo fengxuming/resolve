@@ -3,9 +3,10 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import route from './routes/resolve-router';
 import Resource from 'vue-resource';
-// import ElementUI from 'element-ui';
-import VueLocalStorage from 'vue-localstorage'
-// import 'element-ui/lib/theme-chalk/index.css';
+import ElementUI from 'element-ui';
+import VueLocalStorage from 'vue-localstorage';
+import VCharts from 'v-charts';
+import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false;
 
 
@@ -15,8 +16,9 @@ const router = new VueRouter({
 
 Vue.use(VueRouter);
 Vue.use(Resource);
-// Vue.use(ElementUI);
-Vue.use(VueLocalStorage)
+Vue.use(ElementUI);
+Vue.use(VueLocalStorage);
+Vue.use(VCharts)
 
 Vue.http.headers.common['token'] = Vue.localStorage.get("token","");
 Vue.http.options.root = process.env.VUE_APP_HTTP_ROOT;

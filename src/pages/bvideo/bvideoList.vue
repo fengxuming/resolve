@@ -1,14 +1,14 @@
 <template>
-    <div class="crawlerSettingList" style="height:100%">
+    <div class="bvideoList" style="height:100%">
         <el-row>
             <el-col :span="24">
                 <div class="option">
-                    <el-button type="success" @click="addCrawlerSetting()">添加爬虫配置</el-button>
+                    <el-button type="success" @click="addBvideoList()">添加b站视频</el-button>
                 </div>
             </el-col>
         </el-row>
         <el-table
-                :data="crawlerSettingList"
+                :data="bvideoList"
                 stripe
                 border
                 height="80%"
@@ -18,26 +18,29 @@
                     label="ID">
                 </el-table-column>
                 <el-table-column
-                    prop="bangumiName"
-                    label="番剧关键词">
+                    prop="title"
+                    label="名称">
                 </el-table-column>
                 <el-table-column
-                    prop="zimuzu"
-                    label="字幕组">
+                    prop="aid"
+                    label="b站视频id">
                 </el-table-column>
                 <el-table-column
-                    prop="intervalTime"
-                    label="抓取间隔时间">
+                    prop="bangumiId._id"
+                    label="番剧id">
                 </el-table-column>
                 <el-table-column
-                    prop="bangumi"
-                    label="番剧">
+                    prop="bangumiId.title"
+                    label="番剧名">
                 </el-table-column>
-                
+                <el-table-column
+                    prop="bangumiId.startDate"
+                    label="放送日期">
+                </el-table-column>
                 <el-table-column
                     label="操作">
                     <template slot-scope="scope">
-                        <el-button  type="text" size="small" @click="viewClick(scope.row)">查看</el-button>
+                        
                         <el-button type="text" size="small" @click="editClick(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
@@ -63,32 +66,31 @@ export default {
                 maxSize:20,
             },
             totalRecords:0,
-            crawlerSettingList:[]
+            bvideoList:[]
         }
     },
     methods:{
         handleCurrentChange(value){
             this.searchParams.offset = (value-1)*this.searchParams.maxSize;
-            this.searchCrawlerSettingList();
+            this.searchBvideoList();
         },
-        searchCrawlerSettingList(){
-            this.$http.get("crawlerSettings",{
+        searchBvideoList(){
+            this.$http.get("bvideos",{
                 params:this.searchParams
             }).then(response =>{
-                this.crawlerSettingList = response.body.datas;
+                this.bvideoList = response.body.datas;
             })
         },
-        viewClick(crawlerSetting) {
-            
-            this.$router.push("/admin/crawlerSetting/view/"+crawlerSetting._id);
+        viewClick(bvideo) {
+            this.$router.push("/admin/bvideo/view/"+bvideo._id);
         },
-        editClick(crawlerSetting) {
-            
-            this.$router.push("/admin/crawlerSetting/edit/"+crawlerSetting._id);
+        editClick(bvideo) {
+            this.$router.push("/admin/bvideo/edit/"+bvideo._id);
         },
-        addCrawlerSetting(){
-            this.$router.push("/admin/crawlerSetting/edit/");
+        addBvideoList(){
+            this.$router.push("/admin/bvideo/edit/");
         }
+       
     },
     filters:{
         weekDayFilter(weekDay){
@@ -122,7 +124,7 @@ export default {
         }
     },
     mounted(){
-       this.searchCrawlerSettingList();
+       this.searchBvideoList();
     }
     
 }

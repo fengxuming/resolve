@@ -19,12 +19,12 @@ module.exports = {
         
     },
     configureWebpack: {
-      externals:{
-        "vue":"Vue",
-        "element-ui":"ElementUI",
+      // externals:{
+      //   "vue":"Vue",
+      //   "element-ui":"ElementUI",
        
         
-      },
+      // },
       output: {
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].js',

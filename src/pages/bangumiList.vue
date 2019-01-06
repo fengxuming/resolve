@@ -16,56 +16,48 @@
                 <el-table-column
                     prop="_id"
                     label="ID"
-                    width="120">
+                    >
                 </el-table-column>
                 <el-table-column
                    
                     prop="title"
-                    label="番剧名"
-                    width="150">
+                    label="番剧名">
                 </el-table-column>
                 <el-table-column
                     prop="cover.path"
                     label="封面"
-                    width="120">
+                    width="200">
                     <template slot-scope="scope">
                         <img style="width:100%" :src="scope.row.cover.path | imgUrlFilter"></img>
                     </template>
                 </el-table-column>
                 <el-table-column
                     prop="weekDay"
-                    label="星期"
-                    width="120">
+                    label="星期">
                     <template slot-scope="scope">
                         <span>{{scope.row.weekDay | weekDayFilter}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column
-                    prop="cast"
-                    label="声优表"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="staff"
-                    label="staff表"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="info"
-                    label="简介"
-                    width="300">
-                </el-table-column>
+                
                 
                 <el-table-column
                     
-                    label="操作"
-                    width="100">
+                    label="操作">
                     <template slot-scope="scope">
                         <el-button  type="text" size="small" @click="viewClick(scope.row)">查看</el-button>
                         <el-button type="text" size="small" @click="editClick(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
         </el-table>
+        <div class="page">
+            <el-pagination
+                @current-change="handleCurrentChange"
+                :page-size="20"
+                layout="prev, pager, next, jumper"
+                :total='totalRecords'>
+            </el-pagination>
+        </div>
+        
     </div>
    
 </template>
@@ -73,12 +65,30 @@
 export default {
     data(){
         return {
+            //查询参数
+            searchParams:{
+                offset:0,
+                maxSize:20,
+            },
+            totalRecords:0,
             bangumiList:[]
         }
     },
     methods:{
+        searchBangumiList(){
+            this.$http.get("bangumis",{
+                params:this.searchParams
+            }).then(response =>{
+                this.bangumiList = response.body.datas;
+                this.totalRecords = response.body.totalRecords;
+            });
+        },
+        handleCurrentChange(value){
+            this.searchParams.offset = (value-1)*this.searchParams.maxSize;
+            this.searchBangumiList();
+        },
         viewClick(bangumi) {
-            console.log(bangumi);
+           
             this.$router.push("/admin/bangumi/view/"+bangumi._id);
         },
         editClick(bangumi) {
@@ -121,9 +131,7 @@ export default {
         }
     },
     mounted(){
-        this.$http.get("bangumis").then(response =>{
-            this.bangumiList = response.body;
-        })
+        this.searchBangumiList();
     }
     
 }
@@ -138,5 +146,8 @@ export default {
     .option{
         text-align: right;
         margin-bottom: 20px;
+    }
+    .page{
+        text-align: right;
     }
 </style>
