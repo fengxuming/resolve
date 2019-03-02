@@ -1,30 +1,34 @@
 <template>
-    <el-collapse-item title="第一话" name="1">
-        <el-tabs type="border-card" v-model="activeName">
-            <el-tab-pane label="播放数" name="1">
-                <ve-line ref="chart1" :data-zoom="dataZoom" :data="chartData1" :settings="chartSettings1" :extend="extend"></ve-line>
-            </el-tab-pane>
-            <el-tab-pane label="弹幕数" name="2">
-                <ve-line ref="chart2" :data-zoom="dataZoom" :data="chartData2" :settings="chartSettings2" :extend="extend"></ve-line>
-            </el-tab-pane>
-            <el-tab-pane label="评论数" name="3">
-                <ve-line ref="chart3" :data-zoom="dataZoom" :data="chartData3" :settings="chartSettings3" :extend="extend"></ve-line>
-            </el-tab-pane>
-            <el-tab-pane label="收藏数" name="4">
-                <ve-line ref="chart4" :data-zoom="dataZoom" :data="chartData4" :settings="chartSettings4" :extend="extend"></ve-line>
-            </el-tab-pane>
-            <el-tab-pane label="硬币数" name="5">
-                <ve-line ref="chart5" :data-zoom="dataZoom" :data="chartData5" :settings="chartSettings5" :extend="extend"></ve-line>
-            </el-tab-pane>
-            <el-tab-pane label="分享数" name="6">
-                <ve-line ref="chart6" :data-zoom="dataZoom" :data="chartData6" :settings="chartSettings6" :extend="extend"></ve-line>
-            </el-tab-pane>
-            <el-tab-pane label="点赞数" name="7">
-                <ve-line ref="chart7" :data-zoom="dataZoom" :data="chartData7" :settings="chartSettings7" :extend="extend"></ve-line>
-            </el-tab-pane>
-            
-        </el-tabs>
-    </el-collapse-item>
+
+    <!-- <el-collapse-item :title="bvideo.title" :name="bvideo.aid"> -->
+        <div>
+            <div class="title" @click="changeShow">{{bvideo.title}}</div>
+            <el-tabs type="border-card" v-model="activeName" v-show="isShow">
+                <el-tab-pane label="播放数" name="1">
+                    <ve-line ref="chart1" :data-zoom="dataZoom" :data="chartData1" :settings="chartSettings1" :extend="extend"></ve-line>
+                </el-tab-pane>
+                <el-tab-pane label="弹幕数" name="2">
+                    <ve-line ref="chart2" :data-zoom="dataZoom" :data="chartData2" :settings="chartSettings2" :extend="extend"></ve-line>
+                </el-tab-pane>
+                <el-tab-pane label="评论数" name="3">
+                    <ve-line ref="chart3" :data-zoom="dataZoom" :data="chartData3" :settings="chartSettings3" :extend="extend"></ve-line>
+                </el-tab-pane>
+                <el-tab-pane label="收藏数" name="4">
+                    <ve-line ref="chart4" :data-zoom="dataZoom" :data="chartData4" :settings="chartSettings4" :extend="extend"></ve-line>
+                </el-tab-pane>
+                <el-tab-pane label="硬币数" name="5">
+                    <ve-line ref="chart5" :data-zoom="dataZoom" :data="chartData5" :settings="chartSettings5" :extend="extend"></ve-line>
+                </el-tab-pane>
+                <el-tab-pane label="分享数" name="6">
+                    <ve-line ref="chart6" :data-zoom="dataZoom" :data="chartData6" :settings="chartSettings6" :extend="extend"></ve-line>
+                </el-tab-pane>
+                <el-tab-pane label="点赞数" name="7">
+                    <ve-line ref="chart7" :data-zoom="dataZoom" :data="chartData7" :settings="chartSettings7" :extend="extend"></ve-line>
+                </el-tab-pane>
+                
+            </el-tabs>
+        </div>
+    <!-- </el-collapse-item> -->
 </template>
 <script>
 export default {
@@ -140,8 +144,12 @@ export default {
         };
         return {
              rows:[],
-             activeName: '1',
+             activeName: "1",
+             isShow:false
         }
+    },
+    props:{
+        bvideo:Object
     },
     computed:{
         
@@ -191,22 +199,50 @@ export default {
     },
     watch: {
       activeName (v) {
+          console.log(v);
         this.$nextTick(_ => {
-          this.$refs[`chart${v}`].echarts.resize()
-        })
+            this.$refs[`chart${v}`].echarts.resize()
+        }) 
       }
+    },
+    methods:{
+        changeShow(){
+            if(this.isShow){
+                this.isShow = false;
+            }else{
+                this.isShow = true;
+                this.refreshCharts()
+            }
+        },
+        refreshCharts(){
+            for(let index=1;index<8;index++){
+                this.$nextTick(_ => {
+                    console.log(index)
+                    this.$refs[`chart${index}`].echarts.resize()
+                }) 
+            }
+        }
     },
     mounted(){
         this.$http.get("charts/",{
             params:{
-                aid:"34718302"
+                aid:this.bvideo.aid
             }
         }).then(response=>{
             this.rows = response.body.datas;
+            
         });
     }
 }
 </script>
 <style>
-
+    .title:first-child{
+      
+    }
+    .title{
+        cursor: pointer;
+        padding-bottom: 13px;
+        padding-top: 15px;
+        border-bottom: 1px solid #eee;
+    }
 </style>

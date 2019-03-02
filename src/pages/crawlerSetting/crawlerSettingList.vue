@@ -30,7 +30,7 @@
                     label="抓取间隔时间">
                 </el-table-column>
                 <el-table-column
-                    prop="bangumi"
+                    prop="bangumi.title"
                     label="番剧">
                 </el-table-column>
                 
@@ -76,6 +76,7 @@ export default {
                 params:this.searchParams
             }).then(response =>{
                 this.crawlerSettingList = response.body.datas;
+                this.totalRecords = response.body.totalRecords;
             })
         },
         viewClick(crawlerSetting) {

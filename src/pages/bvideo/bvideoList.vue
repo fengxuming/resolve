@@ -44,6 +44,7 @@
                         <el-button type="text" size="small" @click="editClick(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
+
         </el-table>
         <div class="page">
             <el-pagination
@@ -79,6 +80,7 @@ export default {
                 params:this.searchParams
             }).then(response =>{
                 this.bvideoList = response.body.datas;
+                this.totalRecords = response.body.totalRecords;
             })
         },
         viewClick(bvideo) {

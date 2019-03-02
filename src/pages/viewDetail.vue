@@ -4,15 +4,20 @@
                 <el-col  :xs="24"  :md="6" >
                     <box-content :title="bangumi.title"  :imgUrl="imgUrl" :cast="bangumi.cast" :staff="bangumi.staff"></box-content>
                 </el-col>
-                <el-col :xs="24"  :md="18">
+                <el-col :xs="24"  :md="18" style="position: absolute;
+                        bottom: 0;
+                        top: 0;
+                        right: 0;
+                        display: flex;
+                        flex-direction: column;">
                     <box-content title="播放日期" :content="bangumi.weekDay | weekDayFilter"></box-content>
                     <box-content title="简介" :content="bangumi.info"></box-content>
-                    <box-content title="种子列表">
+                    <box-content title="种子列表" class="torrentContent" style="">
                         <el-table
                             :data="torrentList"
                             stripe
                             border
-                            height="400"
+                            
                             :show-header=false
                             style="width: 100%">
                             <el-table-column
@@ -28,15 +33,19 @@
                     </box-content>
                 </el-col>
         </el-row>
-        <el-card class="box-card">
+        
+        <el-card class="box-card" v-if="bvideoList.length>0" style="padding-top:0">
             <div slot="header" class="clearfix">
                 <span>B站播放数据</span>
             </div>
            
-            <el-collapse v-model="activeNames" @change="handleChange">
-                <line-chart ref="line-chart"></line-chart>
+           <div>
+               <line-chart  v-for="item in bvideoList" :bvideo="item" ></line-chart>
+           </div>
+            <!-- <el-collapse v-model="activeNames" @change="handleChange"  accordion :change="refreshCharts" >
+                <line-chart  v-for="item in bvideoList" :bvideo="item" ></line-chart>
  
-            </el-collapse>
+            </el-collapse> -->
         </el-card>
         
     </div>
@@ -59,8 +68,6 @@ export default {
         return {
             activeNames: ['1'],
             activeName: '1',
-            
-            
             bangumi:{
                 title:"",
                 info:"",
@@ -70,7 +77,8 @@ export default {
                 staff:[],
             },
             url:process.env.VUE_APP_HTTP_ROOT,
-            torrentList:[]
+            torrentList:[],
+            bvideoList:[]
         }
     },
     computed:{
@@ -122,9 +130,11 @@ export default {
     watch: {
       
       activeNames(v){
-        this.$nextTick(_ => {
-          this.$refs[`line-chart`].$refs[`chart${v}`].echarts.resize()
-        })
+        //   console.log(v);
+        // this.$nextTick(_ => {
+        //     console.log(v)
+        //   this.$refs.v.refreshCharts();
+        // })
       }
     },
     mounted(){
@@ -132,7 +142,13 @@ export default {
             this.bangumi = response.body;
         });
 
-        
+        this.$http.get("bvideos",{
+            params:{
+                bangumiId:this.id
+            }
+        }).then(response=>{
+            this.bvideoList = response.body.datas;
+        })
 
         this.$http.get("torrents",{
             params:{
@@ -144,7 +160,12 @@ export default {
     },
     methods:{
         handleChange(val) {
-            console.log(val);
+            // console.log(val);
+        },
+        refreshCharts(){
+            this.$nextTick(_ => {
+                this.$refs[`line-chart`].refreshCharts();
+            })
         }
     }
 }
@@ -153,6 +174,19 @@ export default {
     a{
         text-decoration: none;
         color: #666666;
+    }
+    /* .title:first-child{
+        margin-top: 0;
+    } */
+    .torrentContent { 
+        display: flex;
+        flex-direction: column;
+        flex-grow:1;
+        overflow:hidden
+    }
+    .torrentContent .box-body{
+        flex-grow: 1;
+        overflow: auto;
     }
 </style>
 

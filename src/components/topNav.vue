@@ -5,6 +5,7 @@
             <router-link class="nav-item" to="/"><span>首页</span></router-link>
           </div>
           <div class="option-right">
+
             <span @click="dialogFormVisible = true" v-if="!username">登录</span>
             <span v-if="username">{{username}}</span>
             <span v-if="username" style="margin-left:10px;font-size:14px" @click="logout">退出登录</span>
@@ -41,7 +42,8 @@ export default {
         formLabelWidth: '120px',
         username:"",
         token:"",
-        publicKey:""
+        publicKey:"",
+        
       }
     },
     mounted(){

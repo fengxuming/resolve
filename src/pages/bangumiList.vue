@@ -7,6 +7,29 @@
                 </div>
             </el-col>
         </el-row>
+        <el-row>
+            <el-form :inline="true"  class="demo-form-inline">
+                <el-form-item label="番剧名">
+                    <el-input v-model="title" placeholder="番剧名"></el-input>
+                </el-form-item>
+                <el-form-item label="放松日期">
+                   <el-select v-model="startDate" placeholder="请选择">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="searchBangumiList()">查询</el-button>
+                </el-form-item>
+            </el-form>
+
+
+             
+        </el-row>
         <el-table
                 :data="bangumiList"
                 stripe
@@ -38,7 +61,11 @@
                         <span>{{scope.row.weekDay | weekDayFilter}}</span>
                     </template>
                 </el-table-column>
-                
+                 <el-table-column
+                    prop="startDate"
+                    label="播放日期">
+                    
+                </el-table-column>
                 
                 <el-table-column
                     
@@ -69,9 +96,27 @@ export default {
             searchParams:{
                 offset:0,
                 maxSize:20,
+                startDate:"2019-1",
             },
+            title:"",
+            startDate:"2019-1",
             totalRecords:0,
-            bangumiList:[]
+            bangumiList:[],
+            options: [{
+                value: '2018-10',
+                label: '2018秋季'
+            }, {
+                value: '2019-1',
+                label: '2019春季'
+            }],
+        }
+    },
+    watch:{
+        startDate(newDate){
+            this.searchParams.startDate = newDate
+        },
+        title(newTitle){
+            this.searchParams.title = newTitle
         }
     },
     methods:{

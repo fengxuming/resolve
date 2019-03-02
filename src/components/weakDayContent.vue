@@ -19,7 +19,8 @@ export default {
         BoxContent
     },
     props:{
-        weekDay:Number
+        weekDay:Number,
+        startDate:String
     },
     data(){
         return {
@@ -87,15 +88,28 @@ export default {
               return "/view/detail/"+id;
         }
     },
+    watch:{
+        startDate(newStartDate){
+            this.getBangumiList();
+
+        }
+    },
+    methods:{
+        getBangumiList(){
+            this.$http.get("bangumis",{
+                params:{
+                    weekday:this.weekDay,
+                    startDate:this.startDate,
+                }
+            }).then(resopnse=>{
+                this.weekDayList = resopnse.body.datas;
+            });
+        }
+    },
     mounted(){
-        this.$http.get("bangumis",{
-            params:{
-                weekday:this.weekDay,
-                startDate:"2019-1",
-            }
-        }).then(resopnse=>{
-              this.weekDayList = resopnse.body.datas;
-        });
+        this.getBangumiList();
+
+        
     }
 };
 </script>
