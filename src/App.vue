@@ -33,4 +33,10 @@ html,body {
   font-size: 14px;
  
 }
+
+  @media (max-width: 768px) {
+      .bangumi-detail .main-content{
+          position:  relative;
+      }
+  }
 </style>

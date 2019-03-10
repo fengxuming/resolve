@@ -20,6 +20,7 @@ import bvideo from "../pages/bvideo";
 import bvideoList from "../pages/bvideo/bvideoList";
 import bvideoEdit from "../pages/bvideo/bvideoEdit";
 
+import bangumiStats from "../pages/bangumiStats";
 
 
 
@@ -157,6 +158,12 @@ const routes = [{
         path:"detail/:id",
         name:"viewDetail",
         component:viewDetail,
+        props: true
+      },
+      {
+        path:"bangumiStats",
+        name:"bangumiStats",
+        component:bangumiStats,
         props: true
       },
       {

@@ -3,6 +3,7 @@
           <div class="favicon">Resolve</div>
           <div class="nav-items">
             <router-link class="nav-item" to="/"><span>首页</span></router-link>
+            <router-link class="nav-item" to="/view/bangumiStats"><span>当季新番数据</span></router-link>
           </div>
           <div class="option-right">
 

@@ -4,7 +4,7 @@
                 <el-col  :xs="24"  :md="6" >
                     <box-content :title="bangumi.title"  :imgUrl="imgUrl" :cast="bangumi.cast" :staff="bangumi.staff"></box-content>
                 </el-col>
-                <el-col :xs="24"  :md="18" style="position: absolute;
+                <el-col :xs="24"  :md="18" class="main-content" style="
                         bottom: 0;
                         top: 0;
                         right: 0;
@@ -188,5 +188,15 @@ export default {
         flex-grow: 1;
         overflow: auto;
     }
+
+    .bangumi-detail .main-content{
+        position:  absolute;
+    }
+    @media (max-width: 992px) {
+        .bangumi-detail .main-content{
+            position:  relative;
+        }
+    }
+
 </style>
 
